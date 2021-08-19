@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <wiringPi.h>
+
+int main(void)
+{
+    // Switch is on Physical pin 18,  and WiringPi pin 5.
+    const int button = 5;
+
+    wiringPiSetup();
+    pullUpDnControl (button, PUD_UP); // SETUP PIN 18 PULL UP RESISTORS
+    pinMode(button, INPUT); // SET PIN 18 AS INPUT
+
+    while (1) {
+        if (digitalRead(button) == LOW) {
+            fprintf(stderr, "Switch is pressed\n");
+        } else {
+            fprintf(stderr, "Switch is released\n");
+        }
+        delay(500);
+    }
+
+    return 0;
+}
+
