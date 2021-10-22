@@ -1,0 +1,157 @@
+#! /usr/share/iverilog-0.10.0/bin/vvp
+:ivl_version "0.10.0 (devel)" "(v0_9_6)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "system";
+:vpi_module "vhdl_sys";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+:vpi_module "v2009";
+S_0xcc07c0 .scope module, "tb_reg_mem" "tb_reg_mem" 2 3;
+ .timescale -9 -12;
+P_0xcc0c40 .param/l "ADDR_BITS" 0 2 6, +C4<01100>;
+P_0xcc0c80 .param/l "DATA_WIDTH" 0 2 5, +C4<01000>;
+v0xcd82e0_0 .var "addr", 11 0;
+v0xcd83c0_0 .var "clk", 0 0;
+v0xcd8490_0 .var "data_in", 7 0;
+v0xcd8590_0 .net "data_out", 7 0, v0xcd7f90_0;  1 drivers
+v0xcd8660_0 .var "wen", 0 0;
+S_0xcbd7b0 .scope begin, "$ivl_for_loop0" "$ivl_for_loop0" 2 26, 2 26 0, S_0xcc07c0;
+ .timescale -9 -12;
+v0xcbd980_0 .var/2s "i", 31 0;
+S_0xcd7590 .scope begin, "$ivl_for_loop1" "$ivl_for_loop1" 2 36, 2 36 0, S_0xcc07c0;
+ .timescale -9 -12;
+v0xcd7780_0 .var/2s "i", 31 0;
+S_0xcd7860 .scope module, "RM" "reg_mem" 2 14, 3 3 0, S_0xcc07c0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 12 "addr"
+    .port_info 1 /INPUT 8 "data_in"
+    .port_info 2 /INPUT 1 "wen"
+    .port_info 3 /INPUT 1 "clk"
+    .port_info 4 /OUTPUT 8 "data_out"
+P_0xcd7a60 .param/l "ADDR_BITS" 0 3 6, +C4<01100>;
+P_0xcd7aa0 .param/l "DATA_WIDTH" 0 3 5, +C4<01000>;
+v0xcd7ce0_0 .net "addr", 11 0, v0xcd82e0_0;  1 drivers
+v0xcd7de0_0 .net "clk", 0 0, v0xcd83c0_0;  1 drivers
+v0xcd7ea0_0 .net "data_in", 7 0, v0xcd8490_0;  1 drivers
+v0xcd7f90_0 .var "data_out", 7 0;
+v0xcd8070 .array "mem_array", 0 4095, 7 0;
+v0xcd8180_0 .net "wen", 0 0, v0xcd8660_0;  1 drivers
+E_0xcd7c80 .event posedge, v0xcd7de0_0;
+    .scope S_0xcd7860;
+T_0 ;
+    %wait E_0xcd7c80;
+    %load/v 8, v0xcd8180_0, 1;
+    %jmp/0xz  T_0.0, 8;
+    %load/v 8, v0xcd7ea0_0, 8;
+    %load/v 16, v0xcd7ce0_0, 12;
+    %pad 28, 0, 2;
+    %ix/get 3, 16, 14;
+    %jmp/1 t_0, 4;
+    %ix/load 1, 0, 0; part off
+    %ix/load 0, 8, 0; word width
+    %assign/av v0xcd8070, 0, 8;
+t_0 ;
+    %ix/load 0, 8, 0;
+    %assign/v0 v0xcd7f90_0, 8000, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/v 16, v0xcd7ce0_0, 12;
+    %pad 28, 0, 2;
+    %ix/get 3, 16, 14;
+    %load/av 8, v0xcd8070, 8;
+    %ix/load 0, 8, 0;
+    %assign/v0 v0xcd7f90_0, 0, 8;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0xcc07c0;
+T_1 ;
+    %vpi_call/w 2 18 "$dumpfile", "dump.vcd" {0 0};
+    %vpi_call/w 2 19 "$dumpvars", 2'sb01, S_0xcc07c0 {0 0};
+    %set/v v0xcd83c0_0, 0, 1;
+    %set/v v0xcd8660_0, 1, 1;
+    %fork t_2, S_0xcbd7b0;
+    %jmp t_1;
+    .scope S_0xcbd7b0;
+t_2 ;
+    %movi 8, 1, 32;
+    %set/v v0xcbd980_0, 8, 32;
+T_1.0 ;
+    %load/v 8, v0xcbd980_0, 32;
+    %ix/get/s 4, 8, 32;
+    %ix/load 5, 33, 0;
+    %cmp/ws 4, 5;
+    %mov 8, 5, 1;
+    %jmp/0xz T_1.1, 8;
+    %load/v 8, v0xcbd980_0, 32;
+    %set/v v0xcd8490_0, 8, 8;
+    %load/v 8, v0xcbd980_0, 32;
+    %set/v v0xcd82e0_0, 8, 12;
+    %vpi_call/w 2 30 "$display", "Write %d to address %d", v0xcd8490_0, v0xcd82e0_0 {0 0};
+    %movi 8, 2, 3;
+T_1.2 %cmp/s 0, 8, 3;
+    %jmp/0xz T_1.3, 5;
+    %add 8, 1, 3;
+    %delay 1000, 0;
+    %load/v 11, v0xcd83c0_0, 1;
+    %inv 11, 1;
+    %set/v v0xcd83c0_0, 11, 1;
+    %jmp T_1.2;
+T_1.3 ;
+    %ix/load 0, 1, 0;
+    %load/vp0/s 8, v0xcbd980_0, 32;
+    %cast2 8, 8, 32;
+    %set/v v0xcbd980_0, 8, 32;
+    %jmp T_1.0;
+T_1.1 ;
+    %end;
+    .scope S_0xcc07c0;
+t_1 %join;
+    %set/v v0xcd8660_0, 0, 1;
+    %delay 1000, 0;
+    %fork t_4, S_0xcd7590;
+    %jmp t_3;
+    .scope S_0xcd7590;
+t_4 ;
+    %movi 8, 1, 32;
+    %set/v v0xcd7780_0, 8, 32;
+T_1.4 ;
+    %load/v 8, v0xcd7780_0, 32;
+    %ix/get/s 4, 8, 32;
+    %ix/load 5, 33, 0;
+    %cmp/ws 4, 5;
+    %mov 8, 5, 1;
+    %jmp/0xz T_1.5, 8;
+    %load/v 8, v0xcd7780_0, 32;
+    %set/v v0xcd8490_0, 8, 8;
+    %load/v 8, v0xcd7780_0, 32;
+    %set/v v0xcd82e0_0, 8, 12;
+    %vpi_call/w 2 40 "$display", "Read %d from address %d", v0xcd8490_0, v0xcd82e0_0 {0 0};
+    %movi 8, 2, 3;
+T_1.6 %cmp/s 0, 8, 3;
+    %jmp/0xz T_1.7, 5;
+    %add 8, 1, 3;
+    %delay 1000, 0;
+    %load/v 11, v0xcd83c0_0, 1;
+    %inv 11, 1;
+    %set/v v0xcd83c0_0, 11, 1;
+    %jmp T_1.6;
+T_1.7 ;
+    %ix/load 0, 1, 0;
+    %load/vp0/s 8, v0xcd7780_0, 32;
+    %cast2 8, 8, 32;
+    %set/v v0xcd7780_0, 8, 32;
+    %jmp T_1.4;
+T_1.5 ;
+    %end;
+    .scope S_0xcc07c0;
+t_3 %join;
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "testbench.sv";
+    "design.sv";
